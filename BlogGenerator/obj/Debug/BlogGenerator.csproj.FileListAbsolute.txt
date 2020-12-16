@@ -1,0 +1,7 @@
+C:\Users\OloruntobiJunaid\source\repos\HtmlGenerator\BlogGenerator\obj\Debug\BlogGenerator.csprojAssemblyReference.cache
+C:\Users\OloruntobiJunaid\source\repos\HtmlGenerator\BlogGenerator\obj\Debug\BlogGenerator.csproj.CoreCompileInputs.cache
+C:\Users\OloruntobiJunaid\source\repos\HtmlGenerator\BlogGenerator\bin\Debug\BlogGenerator.exe.config
+C:\Users\OloruntobiJunaid\source\repos\HtmlGenerator\BlogGenerator\bin\Debug\BlogGenerator.exe
+C:\Users\OloruntobiJunaid\source\repos\HtmlGenerator\BlogGenerator\bin\Debug\BlogGenerator.pdb
+C:\Users\OloruntobiJunaid\source\repos\HtmlGenerator\BlogGenerator\obj\Debug\BlogGenerator.exe
+C:\Users\OloruntobiJunaid\source\repos\HtmlGenerator\BlogGenerator\obj\Debug\BlogGenerator.pdb
