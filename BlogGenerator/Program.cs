@@ -18,34 +18,19 @@ namespace BlogGenerator
             //Create Sub directory for a particular Blogger
             string subDirectoryPath = CreateDirectory(mainDirectoryPath);
             
-            //If directory in this person's name does not exist create it
+            //If directory with author's name does not exist create it
             Console.Write("Kindly Enter Blog page name: ");
             string blogName = Console.ReadLine();
             
-            Console.Write("Enter blog topic:" ); //Add exception at this point
+            Console.Write("Enter Article Name:" ); //Add exception handler at this point
             string blogTopic = Console.ReadLine();
 
             Console.WriteLine("Write your story:");
             string blogStory = Console.ReadLine();
 
+            //Finally populate blog page
             CreateBlogPage(blogName, blogTopic, blogStory, subDirectoryPath);
 
-                       
-
-            /*string content = $"<!DOCTYPE html>" +
-                $"<html lang=\"en\">" +
-                $"< head >" +
-                $"< meta charset = \"UTF-8\" >" +
-                $"< meta name = \"viewport\" content = \"width = device-width, initial-scale=1.0\" >" +
-                $"< title > Document </ title >" +
-                $"</ head >" +
-                $"< body >{blogTopic}{blogStory}</ body >" +
-                $"</ html > ";*/
-
-            //blogPageContent.Add(blogTopic);
-            //blogPageContent.Add(blogStory);
-
-            
         }
         
         static string CreateDirectory(string directory)
@@ -56,34 +41,83 @@ namespace BlogGenerator
                 Directory.CreateDirectory(directory);
             }
 
-            //if(String.IsNullOrEmpty(author))
+            
             Console.Write("Enter your name: ");
 
             string author = Console.ReadLine().ToUpper();
-            directory = $@"{directory}{author}";
-         
 
-            //Create sub directory if it doesn't exit
-            if (!Directory.Exists(directory))
+            while (String.IsNullOrEmpty(author))
             {
-                Console.WriteLine("It seems you are a new User. We would attempt to create a new account for you");
-                Directory.CreateDirectory(directory);
-
+                Console.Write("Name cannotbe empty. Enter name please:");
+                author = Console.ReadLine();
             }
+                directory = Path.Combine(directory,author);
 
-            Console.WriteLine($"\nWelcome {author}.This app allows you create your own story. It's as easy as munching on a piece of cake\n\n");
+            //Validate directory Exist
+                if (Directory.Exists(directory))
+                {
+                    Console.WriteLine($"\nWelcome {author}.This app allows you create your own story. It's as easy as munching on a piece of cake\n\n");
+                   
+                }
             
-            return directory;
+             return directory;
         }
+
         static void CreateBlogPage(string blogName, string blogTopic, string blogStory, string root)
         {
-            string blogPath = $@"{root}\{blogName}.html";
+            string blogPath = Path.Combine(root, blogName + ".html");
 
-            Console.WriteLine("New directory: " + blogPath);
+           // Console.WriteLine("New directory: " + blogPath);
             blogTopic = $"<p>{blogTopic}</p>";
 
-            File.AppendAllText(blogPath, $"{blogTopic}<p>Written by: {blogName}. Created On:{DateTime.Now}</p>");
-            File.AppendAllText(blogPath, $"<hr>blogStory");
+            string blogContent = CopyBoilerPlate();
+            blogContent = $"{blogContent}";
+
+          //  Console.WriteLine("boilerPlate: " + blogContent);
+
+            /*string blogContent = $"<!DOCTYPE html>" +
+                $"<html lang=\"en\">" +
+                $"<head>" +
+                $"<meta charset = \"UTF-8\">" +
+                $"<meta name = \"viewport\" content = \"width = device-width, initial-scale=1.0\">" +
+                $"<title> Document </title>" +
+                $"</head>" +
+                $"<body><h1>{blogTopic}</h1><p>Written by:{blogName}. Created On:{DateTime.Now}</p></body>" +
+                $"</html> ";*/
+            try 
+            { 
+                File.AppendAllText(blogPath, blogContent); 
+            }
+            catch(DirectoryNotFoundException dirEx)
+            {
+                Console.WriteLine($"Oops! Something went wrong. {dirEx.Message}.\n It seems you are a new User. We would attempt to create a new account for you");
+                Directory.CreateDirectory(root);
+
+                using (StreamWriter str = File.CreateText(blogPath))
+                {
+                    str.WriteLine(blogContent);
+                    
+                }
+            }
+            
+        }
+
+        static string CopyBoilerPlate()
+        {
+            //Get boilerplate content from main directory
+
+            const string filePath = @"C:\BlogFiles\boilerplate.txt";
+            string innerTextContent = "";
+            try
+            {
+                 innerTextContent = File.ReadAllText(filePath);
+            }
+            catch (FileNotFoundException noFileEx)
+            {
+                Console.WriteLine($"{noFileEx.Message}");
+            }
+
+            return innerTextContent;
         }
 
     }
